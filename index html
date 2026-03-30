@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mexacraft - Servidor Oficial</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('mexacraft.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .overlay {
+            background: rgba(0, 0, 0, 0.7);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            animation: fadeIn 1.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 55px;
+            letter-spacing: 3px;
+        }
+
+        p {
+            color: #dddddd;
+            max-width: 600px;
+        }
+
+        .botones {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .boton {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+            padding: 12px 25px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .boton:hover {
+            background: white;
+            color: black;
+            transform: scale(1.1);
+        }
+
+        .ip {
+            margin-top: 30px;
+            color: gold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .ip:hover {
+            transform: scale(1.1);
+            color: #fff;
+        }
+
+        /* MODALIDADES */
+
+        .modalidades {
+            background: #111;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .modalidades h2 {
+            color: white;
+            font-size: 30px;
+            margin-bottom: 40px;
+        }
+
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .card {
+            background: #1c1c1c;
+            border: 1px solid #333;
+            padding: 20px;
+            width: 250px;
+            color: white;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* EFECTO HOVER PRO */
+        .card::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(0,255,0,0.3), transparent);
+            top: -100%;
+            left: 0;
+            transition: 0.5s;
+        }
+
+        .card:hover::before {
+            top: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.05);
+            border-color: #00ff00;
+        }
+
+        .card h3 {
+            color: #00ff00;
+        }
+
+        .copy-msg {
+            color: #00ff00;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="clickSound" src="https://www.myinstants.com/media/sounds/minecraft-click.mp3"></audio>
+
+    <div class="overlay">
+        <h1>MEXACRAFT</h1>
+
+        <p>Servidor oficial con modalidades únicas, eventos y comunidad activa.</p>
+
+        <div class="botones">
+            <button class="boton" onclick="clickSound()">Jugar</button>
+
+            <button class="boton" onclick="clickSound(); window.open('https://discord.gg/8RDbZZAAb3', '_blank')">
+                Discord
+            </button>
+
+            <button class="boton" onclick="clickSound(); window.open('https://mexacraft.tebex.io/', '_blank')">
+                Tienda
+            </button>
+
+            <button class="boton" onclick="clickSound()">Reglas</button>
+        </div>
+
+        <div class="ip" onclick="copiarIP(); clickSound();">
+            play.mexacraft.net (Click para copiar)
+        </div>
+
+        <div class="copy-msg" id="copyMsg">✔ IP copiada!</div>
+    </div>
+
+    <!-- MODALIDADES -->
+    <div class="modalidades">
+        <h2>Modalidades</h2>
+
+        <div class="cards">
+            <div class="card">
+                <h3>Survival OP</h3>
+                <p>Supervivencia con progresión rápida y economía avanzada.</p>
+            </div>
+
+            <div class="card">
+                <h3>BedWars</h3>
+                <p>Defiende tu cama y elimina a tus enemigos.</p>
+            </div>
+
+            <div class="card">
+                <h3>Survival Custom</h3>
+                <p>Modo con sistemas únicos y contenido exclusivo.</p>
+            </div>
+
+            <div class="card">
+                <h3>Survival Vanilla</h3>
+                <p>La experiencia clásica sin modificaciones.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function clickSound() {
+            document.getElementById("clickSound").play();
+        }
+
+        function copiarIP() {
+            navigator.clipboard.writeText("play.mexacraft.net");
+
+            let msg = document.getElementById("copyMsg");
+            msg.style.display = "block";
+
+            setTimeout(() => {
+                msg.style.display = "none";
+            }, 2000);
+        }
+    </script>
+
+</body>
+</html>
