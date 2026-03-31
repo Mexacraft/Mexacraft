@@ -49,30 +49,41 @@ p { color:#ddd; }
     transform:scale(1.1);
 }
 
-/* COPY */
-.copy-group {
+/* SERVER BOX PRO */
+.server-box {
     margin-top:30px;
     display:flex;
-    gap:10px;
+    gap:15px;
     flex-wrap:wrap;
     justify-content:center;
 }
 
-.copy-btn {
-    border:2px solid white;
-    background:transparent;
+.server-item {
+    border:2px solid #ffffff;
+    padding:12px 20px;
     color:white;
-    padding:10px 20px;
     cursor:pointer;
     transition:0.3s;
+    min-width:220px;
 }
 
-.copy-btn:hover {
+.server-item span {
+    display:block;
+    font-size:12px;
+    color:#aaa;
+}
+
+.server-item strong {
+    font-size:16px;
+}
+
+.server-item:hover {
     background:white;
     color:black;
+    transform:scale(1.05);
 }
 
-.copy-btn.copiado {
+.server-item.copiado {
     background:#00ff00;
     color:black;
     border-color:#00ff00;
@@ -173,15 +184,21 @@ Reglas
 </button>
 </div>
 
-<div class="copy-group">
-<button class="copy-btn" onclick="copiar(this,'mc.mexacraft.com')">
-IP: mc.mexacraft.com
-</button>
+<!-- SERVER BOX NUEVO -->
+<div class="server-box">
 
-<button class="copy-btn" onclick="copiar(this,'25565')">
-Puerto: 25565
-</button>
+    <div class="server-item" onclick="copiarIP(this)">
+        <span>IP</span>
+        <strong>mc.mexacraft.com</strong>
+    </div>
+
+    <div class="server-item" onclick="copiarPuerto(this)">
+        <span>Puerto</span>
+        <strong>25565</strong>
+    </div>
+
 </div>
+
 </div>
 
 <!-- MODALIDADES -->
@@ -226,12 +243,23 @@ function clickSound(){
 document.getElementById("clickSound").play();
 }
 
-function copiar(btn,texto){
-navigator.clipboard.writeText(texto);
-btn.classList.add("copiado");
-setTimeout(()=>{btn.classList.remove("copiado");},1500);
+/* COPIAR PRO */
+function copiarIP(el){
+navigator.clipboard.writeText("mc.mexacraft.com");
+efecto(el);
 }
 
+function copiarPuerto(el){
+navigator.clipboard.writeText("25565");
+efecto(el);
+}
+
+function efecto(el){
+el.classList.add("copiado");
+setTimeout(()=> el.classList.remove("copiado"),1500);
+}
+
+/* MODAL */
 function abrirReglas(){
 document.getElementById("reglasModal").style.display="block";
 }
