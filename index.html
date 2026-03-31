@@ -10,15 +10,22 @@
         body {
             margin: 0;
             padding: 0;
-            background-image: url('mexacraft.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
             font-family: 'Montserrat', sans-serif;
         }
 
+        /* FONDO ANIMADO */
+        #fondo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        }
+
         .overlay {
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.6);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -34,13 +41,13 @@
         }
 
         h1 {
-            color: #ffffff;
+            color: white;
             font-size: 55px;
             letter-spacing: 3px;
         }
 
         p {
-            color: #dddddd;
+            color: #ddd;
             max-width: 600px;
         }
 
@@ -74,11 +81,15 @@
 
         .ip:hover {
             transform: scale(1.1);
-            color: #fff;
+            color: white;
+        }
+
+        .copy-msg {
+            color: #00ff00;
+            display: none;
         }
 
         /* MODALIDADES */
-
         .modalidades {
             background: #111;
             padding: 60px 20px;
@@ -109,7 +120,6 @@
             overflow: hidden;
         }
 
-        /* EFECTO HOVER PRO */
         .card::before {
             content: "";
             position: absolute;
@@ -133,15 +143,14 @@
         .card h3 {
             color: #00ff00;
         }
-
-        .copy-msg {
-            color: #00ff00;
-            display: none;
-        }
     </style>
 </head>
 <body>
 
+    <!-- FONDO -->
+    <canvas id="fondo"></canvas>
+
+    <!-- SONIDO -->
     <audio id="clickSound" src="https://www.myinstants.com/media/sounds/minecraft-click.mp3"></audio>
 
     <div class="overlay">
@@ -212,6 +221,51 @@
                 msg.style.display = "none";
             }, 2000);
         }
+
+        // FONDO ANIMADO
+        const canvas = document.getElementById("fondo");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+
+        for (let i = 0; i < 80; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2,
+                dx: Math.random() - 0.5,
+                dy: Math.random() - 0.5
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = "white";
+                ctx.fill();
+
+                p.x += p.dx;
+                p.y += p.dy;
+
+                if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener("resize", () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
     </script>
 
 </body>
