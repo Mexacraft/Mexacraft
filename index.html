@@ -38,19 +38,11 @@ body::before {
     padding:80px 20px;
 }
 
-/* TITULO */
-h1 {
-    font-size:50px;
-}
-
-.sub {
-    color:#bbb;
-}
+h1 { font-size:50px; }
+.sub { color:#bbb; }
 
 /* BOTONES */
-.botones {
-    margin-top:30px;
-}
+.botones { margin-top:30px; }
 
 .boton {
     display:inline-block;
@@ -70,7 +62,7 @@ h1 {
     transform:translateY(-3px);
 }
 
-/* SERVER CARD */
+/* SERVER BOX */
 .server-box {
     margin-top:40px;
     display:flex;
@@ -100,10 +92,20 @@ h1 {
     color:#aaa;
 }
 
-/* MODALIDADES */
-.modalidades {
-    margin-top:80px;
+/* ESTADO SERVER */
+.estado {
+    margin-top:25px;
+    display:inline-block;
+    padding:15px 25px;
+    border-radius:12px;
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.15);
+    color:#ddd;
+    transition:0.3s;
 }
+
+/* MODALIDADES */
+.modalidades { margin-top:80px; }
 
 .cards {
     display:flex;
@@ -126,7 +128,7 @@ h1 {
     background:rgba(255,255,255,0.2);
 }
 
-/* MENSAJE COPIADO */
+/* TOAST */
 .toast {
     position:fixed;
     bottom:30px;
@@ -157,8 +159,8 @@ h1 {
 <p class="sub">Servidor con experiencias únicas y comunidad activa</p>
 
 <div class="botones">
-<div class="boton">Discord</div>
-<div class="boton">Tienda</div>
+<div class="boton" onclick="window.open('https://discord.gg/8RDbZZAAb3')">Discord</div>
+<div class="boton" onclick="window.open('https://mexacraft.tebex.io/')">Tienda</div>
 </div>
 
 <div class="server-box">
@@ -171,6 +173,11 @@ h1 {
 <span>Puerto</span>
 <strong>25565</strong>
 </div>
+</div>
+
+<!-- ESTADO EN VIVO -->
+<div id="estadoServidor" class="estado">
+Cargando estado del servidor...
 </div>
 
 <div class="modalidades">
@@ -214,6 +221,31 @@ function playHover(){
 document.querySelectorAll('.boton, .server-item, .card').forEach(el => {
     el.addEventListener('mouseenter', playHover);
 });
+
+/* API ESTADO SERVIDOR */
+async function estadoServidor(){
+    try{
+        let res = await fetch("https://api.mcsrvstat.us/2/mc.mexacraft.com");
+        let data = await res.json();
+
+        let estado = document.getElementById("estadoServidor");
+
+        if(data.online){
+            estado.innerHTML = `
+            🟢 Online<br>
+            👥 ${data.players.online} / ${data.players.max} jugadores
+            `;
+        } else {
+            estado.innerHTML = "🔴 Servidor offline";
+        }
+
+    } catch {
+        document.getElementById("estadoServidor").innerHTML = "⚠️ Error al cargar";
+    }
+}
+
+estadoServidor();
+setInterval(estadoServidor, 30000);
 </script>
 
 </body>
