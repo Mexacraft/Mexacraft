@@ -4,44 +4,48 @@
 <meta charset="UTF-8">
 <title>Mexacraft - Servidor Oficial</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 
 <style>
 body {
     margin:0;
-    font-family:'Press Start 2P', cursive;
-    overflow-x:hidden;
+    font-family:'Poppins',sans-serif;
     color:white;
+    overflow-x:hidden;
 }
 
-/* FONDO PARALLAX */
-.fondo {
+/* FONDO DINÁMICO GRADIENTE */
+body::before {
+    content:"";
     position:fixed;
     width:100%;
     height:100%;
-    background:url('https://wallpapercave.com/wp/wp2757874.jpg') no-repeat center;
-    background-size:cover;
-    z-index:-2;
-}
-
-.overlay {
-    position:fixed;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.7);
+    background:linear-gradient(270deg,#0f2027,#203a43,#2c5364,#1c1c1c);
+    background-size:600% 600%;
+    animation:gradientMove 12s ease infinite;
     z-index:-1;
 }
 
+@keyframes gradientMove {
+    0% {background-position:0% 50%;}
+    50% {background-position:100% 50%;}
+    100% {background-position:0% 50%;}
+}
+
 /* CONTENIDO */
-.contenido {
+.container {
     text-align:center;
-    padding-top:100px;
+    padding:80px 20px;
 }
 
 /* TITULO */
 h1 {
-    font-size:30px;
-    color:#00ff00;
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+.sub {
+    color:#bbb;
 }
 
 /* BOTONES */
@@ -52,42 +56,54 @@ h1 {
 .boton {
     display:inline-block;
     margin:10px;
-    padding:15px 25px;
-    background:#2ecc71;
-    color:black;
+    padding:12px 25px;
+    border-radius:30px;
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(5px);
+    border:1px solid rgba(255,255,255,0.2);
     cursor:pointer;
-    border:none;
-    transition:0.2s;
+    transition:0.3s;
 }
 
 .boton:hover {
-    background:#27ae60;
-    transform:scale(1.05);
+    background:white;
+    color:black;
+    transform:translateY(-3px);
 }
 
-/* IP BOX */
+/* SERVER CARD */
 .server-box {
     margin-top:40px;
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
 }
 
 .server-item {
-    margin:15px auto;
-    padding:15px;
-    background:#111;
-    border:2px solid #00ff00;
-    width:300px;
+    padding:20px;
+    border-radius:15px;
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.15);
+    width:220px;
     cursor:pointer;
-    transition:0.2s;
+    transition:0.3s;
 }
 
 .server-item:hover {
-    background:#00ff00;
-    color:black;
+    transform:translateY(-5px);
+    background:rgba(255,255,255,0.2);
+}
+
+.server-item span {
+    display:block;
+    font-size:12px;
+    color:#aaa;
 }
 
 /* MODALIDADES */
 .modalidades {
-    margin-top:100px;
+    margin-top:80px;
 }
 
 .cards {
@@ -98,29 +114,26 @@ h1 {
 }
 
 .card {
-    background:#111;
-    border:2px solid #00ff00;
-    padding:20px;
     width:250px;
-    transition:0.2s;
+    padding:25px;
+    border-radius:15px;
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.15);
+    transition:0.3s;
 }
 
 .card:hover {
-    background:#00ff00;
-    color:black;
+    transform:translateY(-8px);
+    background:rgba(255,255,255,0.2);
 }
 
 </style>
 </head>
 <body>
 
-<div class="fondo"></div>
-<div class="overlay"></div>
-
-<div class="contenido">
+<div class="container">
 <h1>MEXACRAFT</h1>
-
-<p>Servidor survival con modos únicos</p>
+<p class="sub">Servidor con experiencias únicas y comunidad activa</p>
 
 <div class="botones">
 <div class="boton" onclick="window.open('https://discord.gg/8RDbZZAAb3')">Discord</div>
@@ -129,11 +142,13 @@ h1 {
 
 <div class="server-box">
 <div class="server-item" onclick="copiar('mc.mexacraft.com')">
-IP: mc.mexacraft.com
+<span>IP</span>
+<strong>mc.mexacraft.com</strong>
 </div>
 
 <div class="server-item" onclick="copiar('25565')">
-Puerto: 25565
+<span>Puerto</span>
+<strong>25565</strong>
 </div>
 </div>
 
@@ -154,14 +169,6 @@ Puerto: 25565
 function copiar(texto){
 navigator.clipboard.writeText(texto);
 }
-
-/* PARALLAX */
-document.addEventListener("mousemove", (e) => {
-const fondo = document.querySelector(".fondo");
-let x = (e.clientX / window.innerWidth) * 10;
-let y = (e.clientY / window.innerHeight) * 10;
-fondo.style.transform = `translate(-${x}px, -${y}px) scale(1.05)`;
-});
 </script>
 
 </body>
