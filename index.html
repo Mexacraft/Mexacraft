@@ -14,7 +14,7 @@ body {
     overflow-x:hidden;
 }
 
-/* FONDO DINÁMICO GRADIENTE */
+/* FONDO DINÁMICO */
 body::before {
     content:"";
     position:fixed;
@@ -41,7 +41,6 @@ body::before {
 /* TITULO */
 h1 {
     font-size:50px;
-    margin-bottom:10px;
 }
 
 .sub {
@@ -127,6 +126,25 @@ h1 {
     background:rgba(255,255,255,0.2);
 }
 
+/* MENSAJE COPIADO */
+.toast {
+    position:fixed;
+    bottom:30px;
+    left:50%;
+    transform:translateX(-50%) translateY(20px);
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(6px);
+    border:1px solid rgba(255,255,255,0.2);
+    padding:12px 25px;
+    border-radius:30px;
+    opacity:0;
+    transition:0.4s;
+}
+
+.toast.show {
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
 </style>
 </head>
 <body>
@@ -160,14 +178,25 @@ h1 {
 <div class="card">BedWars</div>
 <div class="card">Survival Custom</div>
 <div class="card">Survival Vanilla</div>
+<div class="card">UHC</div>
 </div>
 </div>
 
 </div>
+
+<!-- TOAST -->
+<div id="toast" class="toast">✔ Copiado al portapapeles</div>
 
 <script>
 function copiar(texto){
 navigator.clipboard.writeText(texto);
+
+let toast = document.getElementById("toast");
+toast.classList.add("show");
+
+setTimeout(() => {
+    toast.classList.remove("show");
+}, 2000);
 }
 </script>
 
