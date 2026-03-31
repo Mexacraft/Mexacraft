@@ -49,7 +49,7 @@ p { color:#ddd; }
     transform:scale(1.1);
 }
 
-/* SERVER BOX PRO */
+/* SERVER BOX */
 .server-box {
     margin-top:30px;
     display:flex;
@@ -129,32 +129,6 @@ p { color:#ddd; }
     transform:translateY(-10px) scale(1.05);
     border-color:#00ff00;
 }
-
-/* MODAL REGLAS */
-.modal {
-    display:none;
-    position:fixed;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.8);
-    z-index:999;
-}
-
-.modal-content {
-    background:#111;
-    margin:5% auto;
-    padding:30px;
-    width:80%;
-    max-width:700px;
-    color:white;
-    border-radius:10px;
-}
-
-.cerrar {
-    float:right;
-    cursor:pointer;
-    font-size:25px;
-}
 </style>
 </head>
 <body>
@@ -169,7 +143,6 @@ p { color:#ddd; }
 <p>Servidor oficial con modalidades únicas y comunidad activa</p>
 
 <div class="botones">
-<button class="boton" onclick="clickSound()">Jugar</button>
 
 <button class="boton" onclick="clickSound(); window.open('https://discord.gg/8RDbZZAAb3')">
 Discord
@@ -179,12 +152,9 @@ Discord
 Tienda
 </button>
 
-<button class="boton" onclick="clickSound(); abrirReglas()">
-Reglas
-</button>
 </div>
 
-<!-- SERVER BOX NUEVO -->
+<!-- SERVER BOX -->
 <div class="server-box">
 
     <div class="server-item" onclick="copiarIP(this)">
@@ -204,38 +174,14 @@ Reglas
 <!-- MODALIDADES -->
 <div class="modalidades">
 <h2 style="color:white;">Modalidades</h2>
+
 <div class="cards">
 <div class="card"><h3>Survival OP</h3></div>
 <div class="card"><h3>BedWars</h3></div>
 <div class="card"><h3>Survival Custom</h3></div>
 <div class="card"><h3>Survival Vanilla</h3></div>
 </div>
-</div>
 
-<!-- REGLAS -->
-<div id="reglasModal" class="modal">
-<div class="modal-content">
-<span class="cerrar" onclick="cerrarReglas()">&times;</span>
-
-<h2>📜 Reglas del Servidor</h2>
-
-<p>1. Respeta a todos los jugadores</p>
-<p>2. Prohibido hacks o cheats</p>
-<p>3. X-Ray prohibido</p>
-<p>4. No abusar bugs</p>
-<p>5. No pedir ítems o rangos</p>
-<p>6. No spam</p>
-<p>7. No acoso</p>
-<p>8. Tpakill prohibido</p>
-<p>9. No grifear</p>
-<p>10. No granjas lag</p>
-<p>11. No nombres inapropiados</p>
-<p>12. No suplantar identidad</p>
-<p>13. No info personal</p>
-<p>14. No publicidad</p>
-<p>15. No estafar</p>
-
-</div>
 </div>
 
 <script>
@@ -243,7 +189,7 @@ function clickSound(){
 document.getElementById("clickSound").play();
 }
 
-/* COPIAR PRO */
+/* COPIAR */
 function copiarIP(el){
 navigator.clipboard.writeText("mc.mexacraft.com");
 efecto(el);
@@ -257,20 +203,6 @@ efecto(el);
 function efecto(el){
 el.classList.add("copiado");
 setTimeout(()=> el.classList.remove("copiado"),1500);
-}
-
-/* MODAL */
-function abrirReglas(){
-document.getElementById("reglasModal").style.display="block";
-}
-
-function cerrarReglas(){
-document.getElementById("reglasModal").style.display="none";
-}
-
-window.onclick=function(e){
-let modal=document.getElementById("reglasModal");
-if(e.target==modal){ modal.style.display="none"; }
 }
 
 /* FONDO */
