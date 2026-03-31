@@ -12,7 +12,6 @@
             font-family: 'Montserrat', sans-serif;
         }
 
-        /* FONDO */
         #fondo {
             position: fixed;
             width: 100%;
@@ -66,6 +65,12 @@
             margin-top: 30px;
             color: gold;
             cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .ip:hover {
+            transform: scale(1.1);
+            color: white;
         }
 
         .copy-msg {
@@ -73,7 +78,6 @@
             display: none;
         }
 
-        /* MODALIDADES */
         .modalidades {
             background: #111;
             padding: 60px 20px;
@@ -117,7 +121,6 @@
             border-color: #00ff00;
         }
 
-        /* MODAL REGLAS */
         .modal {
             display: none;
             position: fixed;
@@ -182,13 +185,13 @@
     </div>
 
     <div class="ip" onclick="copiarIP(); clickSound();">
-        play.mexacraft.net (Click para copiar)
+        IP: mc.mexacraft.com <br>
+        Puerto: 25565 (Bedrock)
     </div>
 
     <div class="copy-msg" id="copyMsg">✔ IP copiada!</div>
 </div>
 
-<!-- MODALIDADES -->
 <div class="modalidades">
     <h2 style="color:white;">Modalidades</h2>
 
@@ -200,7 +203,6 @@
     </div>
 </div>
 
-<!-- REGLAS -->
 <div id="reglasModal" class="modal">
     <div class="modal-content">
         <span class="cerrar" onclick="cerrarReglas()">&times;</span>
@@ -232,7 +234,7 @@ function clickSound() {
 }
 
 function copiarIP() {
-    navigator.clipboard.writeText("play.mexacraft.net");
+    navigator.clipboard.writeText("mc.mexacraft.com:25565");
     document.getElementById("copyMsg").style.display = "block";
     setTimeout(() => {
         document.getElementById("copyMsg").style.display = "none";
