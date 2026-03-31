@@ -9,15 +9,12 @@
     <style>
         body {
             margin: 0;
-            padding: 0;
             font-family: 'Montserrat', sans-serif;
         }
 
-        /* FONDO ANIMADO */
+        /* FONDO */
         #fondo {
             position: fixed;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
@@ -25,25 +22,18 @@
         }
 
         .overlay {
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0,0,0,0.6);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             text-align: center;
-            animation: fadeIn 1.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from {opacity: 0;}
-            to {opacity: 1;}
         }
 
         h1 {
             color: white;
             font-size: 55px;
-            letter-spacing: 3px;
         }
 
         p {
@@ -58,8 +48,8 @@
         }
 
         .boton {
-            background: transparent;
             border: 2px solid white;
+            background: transparent;
             color: white;
             padding: 12px 25px;
             cursor: pointer;
@@ -76,12 +66,6 @@
             margin-top: 30px;
             color: gold;
             cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .ip:hover {
-            transform: scale(1.1);
-            color: white;
         }
 
         .copy-msg {
@@ -94,12 +78,6 @@
             background: #111;
             padding: 60px 20px;
             text-align: center;
-        }
-
-        .modalidades h2 {
-            color: white;
-            font-size: 30px;
-            margin-bottom: 40px;
         }
 
         .cards {
@@ -115,9 +93,9 @@
             padding: 20px;
             width: 250px;
             color: white;
-            transition: 0.3s;
             position: relative;
             overflow: hidden;
+            transition: 0.3s;
         }
 
         .card::before {
@@ -127,7 +105,6 @@
             height: 100%;
             background: linear-gradient(120deg, transparent, rgba(0,255,0,0.3), transparent);
             top: -100%;
-            left: 0;
             transition: 0.5s;
         }
 
@@ -140,133 +117,176 @@
             border-color: #00ff00;
         }
 
-        .card h3 {
-            color: #00ff00;
+        /* MODAL REGLAS */
+        .modal {
+            display: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 999;
+        }
+
+        .modal-content {
+            background: #111;
+            margin: 5% auto;
+            padding: 30px;
+            width: 80%;
+            max-width: 700px;
+            color: white;
+            border-radius: 10px;
+        }
+
+        .cerrar {
+            float: right;
+            cursor: pointer;
+            font-size: 25px;
+        }
+
+        .reglas-lista {
+            max-height: 400px;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        .reglas-lista p {
+            margin-bottom: 15px;
         }
     </style>
 </head>
 <body>
 
-    <!-- FONDO -->
-    <canvas id="fondo"></canvas>
+<canvas id="fondo"></canvas>
 
-    <!-- SONIDO -->
-    <audio id="clickSound" src="https://www.myinstants.com/media/sounds/minecraft-click.mp3"></audio>
+<audio id="clickSound" src="https://www.myinstants.com/media/sounds/minecraft-click.mp3"></audio>
 
-    <div class="overlay">
-        <h1>MEXACRAFT</h1>
+<div class="overlay">
+    <h1>MEXACRAFT</h1>
 
-        <p>Servidor oficial con modalidades únicas, eventos y comunidad activa.</p>
+    <p>Servidor oficial con modalidades únicas, eventos y comunidad activa.</p>
 
-        <div class="botones">
-            <button class="boton" onclick="clickSound()">Jugar</button>
+    <div class="botones">
+        <button class="boton" onclick="clickSound()">Jugar</button>
 
-            <button class="boton" onclick="clickSound(); window.open('https://discord.gg/8RDbZZAAb3', '_blank')">
-                Discord
-            </button>
+        <button class="boton" onclick="clickSound(); window.open('https://discord.gg/8RDbZZAAb3', '_blank')">
+            Discord
+        </button>
 
-            <button class="boton" onclick="clickSound(); window.open('https://mexacraft.tebex.io/', '_blank')">
-                Tienda
-            </button>
+        <button class="boton" onclick="clickSound(); window.open('https://mexacraft.tebex.io/', '_blank')">
+            Tienda
+        </button>
 
-            <button class="boton" onclick="clickSound()">Reglas</button>
-        </div>
-
-        <div class="ip" onclick="copiarIP(); clickSound();">
-            mc.mexacraft.com (Click para copiar)
-        </div>
-
-        <div class="copy-msg" id="copyMsg">✔ IP copiada!</div>
+        <button class="boton" onclick="clickSound(); abrirReglas()">
+            Reglas
+        </button>
     </div>
 
-    <!-- MODALIDADES -->
-    <div class="modalidades">
-        <h2>Modalidades</h2>
-
-        <div class="cards">
-            <div class="card">
-                <h3>Survival OP</h3>
-                <p>Supervivencia con progresión rápida y economía avanzada.</p>
-            </div>
-
-            <div class="card">
-                <h3>BedWars</h3>
-                <p>Defiende tu cama y elimina a tus enemigos.</p>
-            </div>
-
-            <div class="card">
-                <h3>Survival Custom</h3>
-                <p>Modo con sistemas únicos y contenido exclusivo.</p>
-            </div>
-
-            <div class="card">
-                <h3>Survival Vanilla</h3>
-                <p>La experiencia clásica sin modificaciones.</p>
-            </div>
-        </div>
+    <div class="ip" onclick="copiarIP(); clickSound();">
+        play.mexacraft.net (Click para copiar)
     </div>
 
-    <script>
-        function clickSound() {
-            document.getElementById("clickSound").play();
-        }
+    <div class="copy-msg" id="copyMsg">✔ IP copiada!</div>
+</div>
 
-        function copiarIP() {
-            navigator.clipboard.writeText("play.mexacraft.net");
+<!-- MODALIDADES -->
+<div class="modalidades">
+    <h2 style="color:white;">Modalidades</h2>
 
-            let msg = document.getElementById("copyMsg");
-            msg.style.display = "block";
+    <div class="cards">
+        <div class="card"><h3>Survival OP</h3></div>
+        <div class="card"><h3>BedWars</h3></div>
+        <div class="card"><h3>Survival Custom</h3></div>
+        <div class="card"><h3>Survival Vanilla</h3></div>
+    </div>
+</div>
 
-            setTimeout(() => {
-                msg.style.display = "none";
-            }, 2000);
-        }
+<!-- REGLAS -->
+<div id="reglasModal" class="modal">
+    <div class="modal-content">
+        <span class="cerrar" onclick="cerrarReglas()">&times;</span>
+        <h2>📜 Reglas del Servidor</h2>
 
-        // FONDO ANIMADO
-        const canvas = document.getElementById("fondo");
-        const ctx = canvas.getContext("2d");
+        <div class="reglas-lista">
+            <p><b>1.</b> Respeta a todos los jugadores</p>
+            <p><b>2.</b> Prohibido usar hacks o cheats</p>
+            <p><b>3.</b> X-Ray totalmente prohibido</p>
+            <p><b>4.</b> No abusar de bugs</p>
+            <p><b>5.</b> No pedir ítems o rangos</p>
+            <p><b>6.</b> No spam</p>
+            <p><b>7.</b> No acoso</p>
+            <p><b>8.</b> Tpakill prohibido</p>
+            <p><b>9.</b> No grifear</p>
+            <p><b>10.</b> No granjas lag</p>
+            <p><b>11.</b> No nombres inapropiados</p>
+            <p><b>12.</b> No suplantar identidad</p>
+            <p><b>13.</b> No info personal</p>
+            <p><b>14.</b> No publicidad</p>
+            <p><b>15.</b> No estafar</p>
+        </div>
+    </div>
+</div>
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+<script>
+function clickSound() {
+    document.getElementById("clickSound").play();
+}
 
-        let particles = [];
+function copiarIP() {
+    navigator.clipboard.writeText("play.mexacraft.net");
+    document.getElementById("copyMsg").style.display = "block";
+    setTimeout(() => {
+        document.getElementById("copyMsg").style.display = "none";
+    }, 2000);
+}
 
-        for (let i = 0; i < 80; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 2,
-                dx: Math.random() - 0.5,
-                dy: Math.random() - 0.5
-            });
-        }
+function abrirReglas() {
+    document.getElementById("reglasModal").style.display = "block";
+}
 
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+function cerrarReglas() {
+    document.getElementById("reglasModal").style.display = "none";
+}
 
-            particles.forEach(p => {
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fillStyle = "white";
-                ctx.fill();
+/* FONDO ANIMADO */
+const canvas = document.getElementById("fondo");
+const ctx = canvas.getContext("2d");
 
-                p.x += p.dx;
-                p.y += p.dy;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-                if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
-                if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
-            });
+let particles = [];
 
-            requestAnimationFrame(animate);
-        }
+for (let i = 0; i < 80; i++) {
+    particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 2,
+        dx: Math.random() - 0.5,
+        dy: Math.random() - 0.5
+    });
+}
 
-        animate();
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        window.addEventListener("resize", () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-    </script>
+    particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = "white";
+        ctx.fill();
+
+        p.x += p.dx;
+        p.y += p.dy;
+
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+    });
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+</script>
 
 </body>
 </html>
