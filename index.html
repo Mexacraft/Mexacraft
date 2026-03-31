@@ -4,176 +4,145 @@
 <meta charset="UTF-8">
 <title>Mexacraft - Servidor Oficial</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-body { margin:0; font-family:'Montserrat',sans-serif; }
+body {
+    margin:0;
+    font-family:'Orbitron',sans-serif;
+    overflow-x:hidden;
+    background:black;
+}
 
-/* FONDO */
-#fondo {
+/* FONDO DINÁMICO */
+canvas {
     position:fixed;
-    width:100%;
-    height:100%;
+    top:0;
+    left:0;
     z-index:-1;
-    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
 }
 
+/* CONTENIDO */
 .overlay {
-    background:rgba(0,0,0,0.6);
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
     text-align:center;
+    padding-top:100px;
+    color:white;
 }
 
-h1 { color:white; font-size:55px; }
-p { color:#ddd; }
+h1 {
+    font-size:60px;
+    text-shadow:0 0 20px #00ffcc;
+}
 
-/* BOTONES */
-.botones { display:flex; gap:15px; margin-top:20px; }
+/* BOTONES NEÓN */
+.botones {
+    margin-top:30px;
+}
 
 .boton {
-    border:2px solid white;
+    margin:10px;
+    padding:12px 30px;
+    border:2px solid #00ffcc;
     background:transparent;
-    color:white;
-    padding:12px 25px;
+    color:#00ffcc;
     cursor:pointer;
     transition:0.3s;
 }
 
 .boton:hover {
-    background:white;
+    background:#00ffcc;
     color:black;
-    transform:scale(1.1);
+    box-shadow:0 0 20px #00ffcc;
 }
 
-/* SERVER BOX */
+/* SERVER BOX GLASS */
 .server-box {
-    margin-top:30px;
+    margin-top:40px;
     display:flex;
-    gap:15px;
-    flex-wrap:wrap;
     justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
 }
 
 .server-item {
-    border:2px solid #ffffff;
-    padding:12px 20px;
+    backdrop-filter: blur(10px);
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.2);
+    padding:15px 25px;
     color:white;
     cursor:pointer;
     transition:0.3s;
-    min-width:220px;
-}
-
-.server-item span {
-    display:block;
-    font-size:12px;
-    color:#aaa;
-}
-
-.server-item strong {
-    font-size:16px;
 }
 
 .server-item:hover {
-    background:white;
-    color:black;
     transform:scale(1.05);
-}
-
-.server-item.copiado {
-    background:#00ff00;
-    color:black;
-    border-color:#00ff00;
+    border-color:#00ffcc;
+    box-shadow:0 0 15px #00ffcc;
 }
 
 /* MODALIDADES */
 .modalidades {
-    background:#111;
-    padding:60px 20px;
-    text-align:center;
+    margin-top:100px;
+    padding:40px;
 }
 
 .cards {
     display:flex;
-    flex-wrap:wrap;
     justify-content:center;
-    gap:25px;
+    flex-wrap:wrap;
+    gap:20px;
 }
 
 .card {
-    background:#1c1c1c;
-    border:1px solid #333;
+    backdrop-filter: blur(10px);
+    background:rgba(255,255,255,0.05);
     padding:20px;
     width:250px;
-    color:white;
-    position:relative;
-    overflow:hidden;
+    border:1px solid rgba(255,255,255,0.2);
     transition:0.3s;
 }
 
-.card::before {
-    content:"";
-    position:absolute;
-    width:100%;
-    height:100%;
-    background:linear-gradient(120deg,transparent,rgba(0,255,0,0.3),transparent);
-    top:-100%;
-    transition:0.5s;
+.card:hover {
+    transform:translateY(-10px);
+    box-shadow:0 0 20px #00ffcc;
 }
 
-.card:hover::before { top:100%; }
-.card:hover {
-    transform:translateY(-10px) scale(1.05);
-    border-color:#00ff00;
-}
+/* TEXTO */
+span { color:#aaa; font-size:12px; }
+strong { font-size:18px; }
+
 </style>
 </head>
 <body>
 
-<canvas id="fondo"></canvas>
-
-<audio id="clickSound" src="https://www.myinstants.com/media/sounds/minecraft-click.mp3"></audio>
+<canvas id="bg"></canvas>
 
 <div class="overlay">
 <h1>MEXACRAFT</h1>
 
-<p>Servidor oficial con modalidades únicas y comunidad activa</p>
+<p>Servidor premium con experiencias únicas</p>
 
 <div class="botones">
-
-<button class="boton" onclick="clickSound(); window.open('https://discord.gg/8RDbZZAAb3')">
-Discord
-</button>
-
-<button class="boton" onclick="clickSound(); window.open('https://mexacraft.tebex.io/')">
-Tienda
-</button>
-
+<button class="boton" onclick="window.open('https://discord.gg/8RDbZZAAb3')">Discord</button>
+<button class="boton" onclick="window.open('https://mexacraft.tebex.io/')">Tienda</button>
 </div>
 
-<!-- SERVER BOX -->
 <div class="server-box">
+<div class="server-item" onclick="copiar('mc.mexacraft.com')">
+<span>IP</span>
+<strong>mc.mexacraft.com</strong>
+</div>
 
-    <div class="server-item" onclick="copiarIP(this)">
-        <span>IP</span>
-        <strong>mc.mexacraft.com</strong>
-    </div>
-
-    <div class="server-item" onclick="copiarPuerto(this)">
-        <span>Puerto</span>
-        <strong>25565</strong>
-    </div>
-
+<div class="server-item" onclick="copiar('25565')">
+<span>Puerto</span>
+<strong>25565</strong>
+</div>
 </div>
 
 </div>
 
-<!-- MODALIDADES -->
 <div class="modalidades">
-<h2 style="color:white;">Modalidades</h2>
+<h2 style="text-align:center;">Modalidades</h2>
 
 <div class="cards">
 <div class="card"><h3>Survival OP</h3></div>
@@ -181,60 +150,51 @@ Tienda
 <div class="card"><h3>Survival Custom</h3></div>
 <div class="card"><h3>Survival Vanilla</h3></div>
 </div>
-
 </div>
 
 <script>
-function clickSound(){
-document.getElementById("clickSound").play();
+function copiar(texto){
+navigator.clipboard.writeText(texto);
 }
 
-/* COPIAR */
-function copiarIP(el){
-navigator.clipboard.writeText("mc.mexacraft.com");
-efecto(el);
-}
+/* FONDO DINÁMICO */
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
 
-function copiarPuerto(el){
-navigator.clipboard.writeText("25565");
-efecto(el);
-}
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-function efecto(el){
-el.classList.add("copiado");
-setTimeout(()=> el.classList.remove("copiado"),1500);
-}
+let particles = [];
 
-/* FONDO */
-const canvas=document.getElementById("fondo");
-const ctx=canvas.getContext("2d");
-
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-
-let particles=[];
-for(let i=0;i<80;i++){
+for(let i=0;i<120;i++){
 particles.push({
 x:Math.random()*canvas.width,
 y:Math.random()*canvas.height,
-r:Math.random()*2,
-dx:Math.random()-0.5,
-dy:Math.random()-0.5
+dx:(Math.random()-0.5)*1,
+dy:(Math.random()-0.5)*1
 });
 }
 
 function animate(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="rgba(0,0,0,0.2)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
 particles.forEach(p=>{
 ctx.beginPath();
-ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-ctx.fillStyle="white";
+ctx.arc(p.x,p.y,2,0,Math.PI*2);
+ctx.fillStyle="#00ffcc";
 ctx.fill();
+
 p.x+=p.dx;
 p.y+=p.dy;
+
+if(p.x<0||p.x>canvas.width) p.dx*=-1;
+if(p.y<0||p.y>canvas.height) p.dy*=-1;
 });
+
 requestAnimationFrame(animate);
 }
+
 animate();
 </script>
 
