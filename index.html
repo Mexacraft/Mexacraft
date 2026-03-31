@@ -9,6 +9,7 @@
 <style>
 body { margin:0; font-family:'Montserrat',sans-serif; }
 
+/* FONDO */
 #fondo {
     position:fixed;
     width:100%;
@@ -28,8 +29,9 @@ body { margin:0; font-family:'Montserrat',sans-serif; }
 }
 
 h1 { color:white; font-size:55px; }
-p { color:#ddd; max-width:600px; }
+p { color:#ddd; }
 
+/* BOTONES */
 .botones { display:flex; gap:15px; margin-top:20px; }
 
 .boton {
@@ -47,18 +49,20 @@ p { color:#ddd; max-width:600px; }
     transform:scale(1.1);
 }
 
-.ip-box {
+/* COPY */
+.copy-group {
     margin-top:30px;
-    color:white;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    justify-content:center;
 }
 
 .copy-btn {
-    display:block;
-    margin:5px auto;
-    padding:8px 15px;
-    border:1px solid #fff;
+    border:2px solid white;
     background:transparent;
     color:white;
+    padding:10px 20px;
     cursor:pointer;
     transition:0.3s;
 }
@@ -68,9 +72,10 @@ p { color:#ddd; max-width:600px; }
     color:black;
 }
 
-.copy-msg {
-    color:#00ff00;
-    display:none;
+.copy-btn.copiado {
+    background:#00ff00;
+    color:black;
+    border-color:#00ff00;
 }
 
 /* MODALIDADES */
@@ -139,12 +144,6 @@ p { color:#ddd; max-width:600px; }
     cursor:pointer;
     font-size:25px;
 }
-
-.reglas-lista {
-    max-height:400px;
-    overflow-y:auto;
-    text-align:left;
-}
 </style>
 </head>
 <body>
@@ -156,26 +155,32 @@ p { color:#ddd; max-width:600px; }
 <div class="overlay">
 <h1>MEXACRAFT</h1>
 
-<p>Servidor oficial con modalidades únicas, eventos y comunidad activa.</p>
+<p>Servidor oficial con modalidades únicas y comunidad activa</p>
 
 <div class="botones">
 <button class="boton" onclick="clickSound()">Jugar</button>
 
-<button class="boton" onclick="clickSound(); window.open('https://discord.gg/8RDbZZAAb3')">Discord</button>
+<button class="boton" onclick="clickSound(); window.open('https://discord.gg/8RDbZZAAb3')">
+Discord
+</button>
 
-<button class="boton" onclick="clickSound(); window.open('https://mexacraft.tebex.io/')">Tienda</button>
+<button class="boton" onclick="clickSound(); window.open('https://mexacraft.tebex.io/')">
+Tienda
+</button>
 
-<button class="boton" onclick="clickSound(); abrirReglas()">Reglas</button>
+<button class="boton" onclick="clickSound(); abrirReglas()">
+Reglas
+</button>
 </div>
 
-<div class="ip-box">
-    <p>IP: mc.mexacraft.com</p>
-    <button class="copy-btn" onclick="copiar('mc.mexacraft.com')">📋 Copiar IP</button>
+<div class="copy-group">
+<button class="copy-btn" onclick="copiar(this,'mc.mexacraft.com')">
+IP: mc.mexacraft.com
+</button>
 
-    <p>Puerto: 25565</p>
-    <button class="copy-btn" onclick="copiar('25565')">📋 Copiar Puerto</button>
-
-    <div class="copy-msg" id="copyMsg">✔ Copiado!</div>
+<button class="copy-btn" onclick="copiar(this,'25565')">
+Puerto: 25565
+</button>
 </div>
 </div>
 
@@ -194,11 +199,11 @@ p { color:#ddd; max-width:600px; }
 <div id="reglasModal" class="modal">
 <div class="modal-content">
 <span class="cerrar" onclick="cerrarReglas()">&times;</span>
+
 <h2>📜 Reglas del Servidor</h2>
 
-<div class="reglas-lista">
 <p>1. Respeta a todos los jugadores</p>
-<p>2. Prohibido usar hacks o cheats</p>
+<p>2. Prohibido hacks o cheats</p>
 <p>3. X-Ray prohibido</p>
 <p>4. No abusar bugs</p>
 <p>5. No pedir ítems o rangos</p>
@@ -212,7 +217,7 @@ p { color:#ddd; max-width:600px; }
 <p>13. No info personal</p>
 <p>14. No publicidad</p>
 <p>15. No estafar</p>
-</div>
+
 </div>
 </div>
 
@@ -221,11 +226,10 @@ function clickSound(){
 document.getElementById("clickSound").play();
 }
 
-function copiar(texto){
+function copiar(btn,texto){
 navigator.clipboard.writeText(texto);
-let msg=document.getElementById("copyMsg");
-msg.style.display="block";
-setTimeout(()=>{msg.style.display="none";},2000);
+btn.classList.add("copiado");
+setTimeout(()=>{btn.classList.remove("copiado");},1500);
 }
 
 function abrirReglas(){
@@ -236,13 +240,12 @@ function cerrarReglas(){
 document.getElementById("reglasModal").style.display="none";
 }
 
-/* CERRAR AL HACER CLICK FUERA */
 window.onclick=function(e){
 let modal=document.getElementById("reglasModal");
 if(e.target==modal){ modal.style.display="none"; }
 }
 
-/* FONDO ANIMADO */
+/* FONDO */
 const canvas=document.getElementById("fondo");
 const ctx=canvas.getContext("2d");
 
