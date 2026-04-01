@@ -92,14 +92,38 @@ h1 { font-size:50px; }
     color:#aaa;
 }
 
-/* ESTADO */
+/* ESTADO PRO */
 .estado {
     margin-top:25px;
     display:inline-block;
-    padding:15px 25px;
+    padding:20px;
     border-radius:12px;
     background:rgba(255,255,255,0.08);
     border:1px solid rgba(255,255,255,0.15);
+    width:280px;
+}
+
+/* BARRA */
+.barra {
+    width:100%;
+    height:10px;
+    background:rgba(255,255,255,0.1);
+    border-radius:10px;
+    margin-top:10px;
+    overflow:hidden;
+}
+
+.progreso {
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#00ffcc,#00aaff);
+    transition:0.5s;
+}
+
+#textoJugadores {
+    margin-top:8px;
+    font-size:14px;
+    color:#bbb;
 }
 
 /* MODALIDADES */
@@ -145,54 +169,6 @@ h1 { font-size:50px; }
     opacity:1;
     transform:translateX(-50%) translateY(0);
 }
-
-/* MODAL TUTORIAL */
-.modal {
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.6);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    opacity:0;
-    pointer-events:none;
-    transition:0.3s;
-}
-
-.modal.show {
-    opacity:1;
-    pointer-events:auto;
-}
-
-.modal-content {
-    background:rgba(255,255,255,0.1);
-    backdrop-filter:blur(10px);
-    padding:30px;
-    border-radius:20px;
-    max-width:500px;
-    text-align:left;
-    border:1px solid rgba(255,255,255,0.2);
-}
-
-.modal-content h2 {
-    text-align:center;
-}
-
-.cerrar {
-    margin-top:15px;
-    text-align:center;
-    cursor:pointer;
-    padding:10px;
-    border-radius:10px;
-    background:rgba(255,255,255,0.1);
-}
-.cerrar:hover {
-    background:white;
-    color:black;
-}
 </style>
 </head>
 <body>
@@ -206,7 +182,6 @@ h1 { font-size:50px; }
 <div class="botones">
 <div class="boton" onclick="window.open('https://discord.gg/8RDbZZAAb3')">Discord</div>
 <div class="boton" onclick="window.open('https://mexacraft.tebex.io/')">Tienda</div>
-<div class="boton" onclick="abrirModal()">¿Cómo entrar?</div>
 </div>
 
 <div class="server-box">
@@ -228,8 +203,15 @@ h1 { font-size:50px; }
 
 </div>
 
+<!-- ESTADO MEJORADO -->
 <div id="estadoServidor" class="estado">
-Cargando estado del servidor...
+🟡 Cargando estado...
+
+<div class="barra">
+    <div id="progreso" class="progreso"></div>
+</div>
+
+<div id="textoJugadores"></div>
 </div>
 
 <div class="modalidades">
@@ -243,26 +225,6 @@ Cargando estado del servidor...
 </div>
 </div>
 
-</div>
-
-<!-- MODAL -->
-<div id="modal" class="modal">
-<div class="modal-content">
-<h2>🎮 Cómo entrar a Mexacraft</h2>
-
-<b>🖥️ Java Edition</b><br>
-1. Abrí Minecraft<br>
-2. Multijugador<br>
-3. Añadir servidor<br>
-4. IP: mc.mexacraft.com<br><br>
-
-<b>📱 Bedrock</b><br>
-Nombre: Mexacraft<br>
-IP: mc.mexacraft.com<br>
-Puerto: 25565<br><br>
-
-<div class="cerrar" onclick="cerrarModal()">Cerrar</div>
-</div>
 </div>
 
 <div id="toast" class="toast">✔ Copiado</div>
@@ -291,31 +253,41 @@ el.addEventListener('mouseenter',playSound);
 el.addEventListener('click',playSound);
 });
 
-function abrirModal(){
-document.getElementById("modal").classList.add("show");
-}
-function cerrarModal(){
-document.getElementById("modal").classList.remove("show");
-}
-
+/* NUEVO CONTADOR PRO */
 async function estadoServidor(){
-try{
-let res=await fetch("https://api.mcsrvstat.us/2/mc.mexacraft.com");
-let data=await res.json();
-let e=document.getElementById("estadoServidor");
+    try{
+        let res = await fetch("https://api.mcsrvstat.us/2/mc.mexacraft.com");
+        let data = await res.json();
 
-if(data.online){
-e.innerHTML=`🟢 Online<br>👥 ${data.players.online} / ${data.players.max}`;
-}else{
-e.innerHTML="🔴 Offline";
-}
-}catch{
-document.getElementById("estadoServidor").innerHTML="⚠️ Error";
-}
+        let estado = document.getElementById("estadoServidor");
+        let barra = document.getElementById("progreso");
+        let texto = document.getElementById("textoJugadores");
+
+        if(data.online){
+            let online = data.players.online;
+            let max = data.players.max;
+
+            let porcentaje = (online / max) * 100;
+
+            estado.childNodes[0].nodeValue = "🟢 Servidor Online";
+
+            barra.style.width = porcentaje + "%";
+
+            texto.innerHTML = `👥 ${online} / ${max} jugadores (${Math.floor(porcentaje)}%)`;
+
+        } else {
+            estado.childNodes[0].nodeValue = "🔴 Servidor offline";
+            barra.style.width = "0%";
+            texto.innerHTML = "";
+        }
+
+    } catch {
+        document.getElementById("estadoServidor").innerHTML = "⚠️ Error al cargar";
+    }
 }
 
 estadoServidor();
-setInterval(estadoServidor,30000);
+setInterval(estadoServidor, 30000);
 </script>
 
 </body>
