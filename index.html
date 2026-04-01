@@ -14,7 +14,7 @@ body {
     overflow-x:hidden;
 }
 
-/* FONDO */
+/* FONDO DINÁMICO */
 body::before {
     content:"";
     position:fixed;
@@ -92,38 +92,15 @@ h1 { font-size:50px; }
     color:#aaa;
 }
 
-/* ESTADO PRO */
+/* ESTADO SERVER */
 .estado {
     margin-top:25px;
     display:inline-block;
-    padding:20px;
+    padding:15px 25px;
     border-radius:12px;
     background:rgba(255,255,255,0.08);
     border:1px solid rgba(255,255,255,0.15);
-    width:280px;
-}
-
-/* BARRA */
-.barra {
-    width:100%;
-    height:10px;
-    background:rgba(255,255,255,0.1);
-    border-radius:10px;
-    margin-top:10px;
-    overflow:hidden;
-}
-
-.progreso {
-    height:100%;
-    width:0%;
-    background:linear-gradient(90deg,#00ffcc,#00aaff);
-    transition:0.5s;
-}
-
-#textoJugadores {
-    margin-top:8px;
-    font-size:14px;
-    color:#bbb;
+    color:#ddd;
 }
 
 /* MODALIDADES */
@@ -173,6 +150,7 @@ h1 { font-size:50px; }
 </head>
 <body>
 
+<!-- AUDIO -->
 <audio id="hoverSound" src="https://www.myinstants.com/media/sounds/minecraft-click.mp3"></audio>
 
 <div class="container">
@@ -187,15 +165,16 @@ h1 { font-size:50px; }
 <div class="server-box">
 
 <div class="server-item" onclick="copiar('mc.mexacraft.com')">
-<span>📋 Click para copiar IP</span>
+<span>IP</span>
 <strong>mc.mexacraft.com</strong>
 </div>
 
 <div class="server-item" onclick="copiar('25565')">
-<span>📋 Click para copiar Puerto</span>
+<span>Puerto</span>
 <strong>25565</strong>
 </div>
 
+<!-- NUEVO CUADRADO VOTAR -->
 <div class="server-item" onclick="window.open('http://40servidoresmc.es/servidor.php?cod=9011')">
 <span>⭐ Recompensas</span>
 <strong>Votar por el servidor</strong>
@@ -203,19 +182,13 @@ h1 { font-size:50px; }
 
 </div>
 
-<!-- ESTADO MEJORADO -->
 <div id="estadoServidor" class="estado">
-🟡 Cargando estado...
-
-<div class="barra">
-    <div id="progreso" class="progreso"></div>
-</div>
-
-<div id="textoJugadores"></div>
+Cargando estado del servidor...
 </div>
 
 <div class="modalidades">
 <h2>Modalidades</h2>
+
 <div class="cards">
 <div class="card">Survival OP</div>
 <div class="card">BedWars</div>
@@ -227,58 +200,55 @@ h1 { font-size:50px; }
 
 </div>
 
-<div id="toast" class="toast">✔ Copiado</div>
+<!-- TOAST -->
+<div id="toast" class="toast">✔ Copiado al portapapeles</div>
 
 <script>
 function copiar(texto){
 navigator.clipboard.writeText(texto);
-let t=document.getElementById("toast");
-t.classList.add("show");
-setTimeout(()=>t.classList.remove("show"),2000);
+
+let toast = document.getElementById("toast");
+toast.classList.add("show");
+
+setTimeout(() => {
+    toast.classList.remove("show");
+}, 2000);
 }
 
-const hoverSound=document.getElementById("hoverSound");
-let audioActivado=false;
-document.addEventListener("click",()=>audioActivado=true,{once:true});
+const hoverSound = document.getElementById("hoverSound");
+let audioActivado = false;
+
+document.addEventListener("click", () => {
+    audioActivado = true;
+}, { once: true });
 
 function playSound(){
-if(!audioActivado)return;
-hoverSound.currentTime=0;
-hoverSound.volume=0.15;
-hoverSound.play();
+    if(!audioActivado) return;
+
+    hoverSound.currentTime = 0;
+    hoverSound.volume = 0.15;
+    hoverSound.play();
 }
 
-document.querySelectorAll('.boton, .server-item, .card').forEach(el=>{
-el.addEventListener('mouseenter',playSound);
-el.addEventListener('click',playSound);
+document.querySelectorAll('.boton, .server-item, .card').forEach(el => {
+    el.addEventListener('mouseenter', playSound);
+    el.addEventListener('click', playSound);
 });
 
-/* NUEVO CONTADOR PRO */
 async function estadoServidor(){
     try{
         let res = await fetch("https://api.mcsrvstat.us/2/mc.mexacraft.com");
         let data = await res.json();
 
         let estado = document.getElementById("estadoServidor");
-        let barra = document.getElementById("progreso");
-        let texto = document.getElementById("textoJugadores");
 
         if(data.online){
-            let online = data.players.online;
-            let max = data.players.max;
-
-            let porcentaje = (online / max) * 100;
-
-            estado.childNodes[0].nodeValue = "🟢 Servidor Online";
-
-            barra.style.width = porcentaje + "%";
-
-            texto.innerHTML = `👥 ${online} / ${max} jugadores (${Math.floor(porcentaje)}%)`;
-
+            estado.innerHTML = `
+            🟢 Online<br>
+            👥 ${data.players.online} / ${data.players.max} jugadores
+            `;
         } else {
-            estado.childNodes[0].nodeValue = "🔴 Servidor offline";
-            barra.style.width = "0%";
-            texto.innerHTML = "";
+            estado.innerHTML = "🔴 Servidor offline";
         }
 
     } catch {
